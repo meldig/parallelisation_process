@@ -24,5 +24,3 @@ client = Client()
 
 - Cliquez ensuite sur l'icône dask dans la toolbar à gauche et cliquez sur la loupe.
 - Vous avez maintenant à votre disposition plusieurs éléments de visualisation dask.
-- 
-![](C:\Users\calba\Desktop\Capture.PNG)
