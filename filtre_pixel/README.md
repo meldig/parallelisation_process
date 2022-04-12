@@ -1,15 +1,15 @@
-# filter_raster
+# filter_raster :snake:
 
 Ce script permet de filtrer les valeurs d'un raster en entrée (converti en tableau).
 
 Utilisation de dask pour la parallélisation et de rasterio pour la lecture et l'écriture des rasters.
 
-### main
+### main :house_with_garden:
 
 On récupère le tableau de valeurs correspondant au raster en entrée grâce à la fonction read().
 On récupère les métadonnées du raster en entrée dans la variable data et on indique une valeur de 'nodata' (pas de valeur pour le pixel)
 
-### filter
+### filter :no_entry_sign:
 
 Cette fonction attend deux paramètres : le tableau de valeurs et les métadonnées du raster en entrée.
 
@@ -17,7 +17,7 @@ Dans le tableau chunks, on va mettre les valeurs des chunks souhaitée pour la c
 
 On converti ensuite notre tableau de valeurs en Dask Array, puis grâce à la commande da.where on affecte la valeur de nodata aux valeurs inférieures au seuil indiqué par l'utilisateur.
 
-### createRaster
+### createRaster :pencil2:
 
 Cette fonction attend deux arguments : le Dask Array et les métadonnées du raster en entrée.
 
