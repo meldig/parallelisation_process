@@ -1,48 +1,27 @@
-import dask_rasterio as dr
 import dask.array as da
-import sys
-import numpy as np
 import rasterio
-
-
-def getDaskArray(filepath):
-    return dr.read_raster(filepath)
-
-
-def filterArray(array, lim):
-    return np.where(array >= lim, array, -9999)
+import time
 
 
 def multiply(array):
-    multipliedArray = np.where(array >= 14, 100*array, -9999)
-    multipliedDaskArray = da.from_array(multipliedArray, chunks=(1, 5, 365))
-    multipliedDaskArray.dtype = rasterio.int16
+    daskArray = da.from_array(array, (1, 1000, 1000))
+    multipliedDaskArray = da.where(daskArray >= 11, 10*daskArray, -9999)
     return multipliedDaskArray
 
 
-def createRaster(rasterArray):
-    with rasterio.open("D:\\Documents\\MISSIONS\\DASK\\echant_5cm_pix_cc50.tif") as src:
-        data = src.profile
-        srcTransform = src.transform
-
-    with rasterio.open(
-        "D:\\Documents\\MISSIONS\\DASK\\new.tif",
-        "w",
-        driver="GTiff",
-        height=rasterArray.shape[1],
-        width=rasterArray.shape[2],
-        count=data['count'],
-        dtype=rasterArray.dtype,
-        crs=data['crs'],
-        transform=srcTransform,
-        nodata=-9999
-    ) as dst:
-        dst.write(rasterArray)
+def createRaster(array, data):
+    convertedArray = array.astype(rasterio.int16)
+    with rasterio.open("D:\\Documents\\MISSIONS\\DASK\\new.tif", 'w', **data) as dst:
+        dst.write(convertedArray)
 
 
 if __name__ == "__main__":
-    np.set_printoptions(threshold=sys.maxsize)
+    rasterPath = "D:\\Documents\\MISSIONS\\DASK\\echant_bigger_5cm_pix_cc50.tif"
 
-    array = getDaskArray("D:\\Documents\\MISSIONS\\DASK\\echant_5cm_pix_cc50.tif")
-    finalDaskArray = multiply(array)
-    createRaster(finalDaskArray)
+    with rasterio.open(rasterPath) as raster:
+        npArray = raster.read()
+        data = raster.profile
+        data['nodata'] = -9999
+
+    multipliedArray = multiply(npArray)
+    createRaster(multipliedArray, data)
