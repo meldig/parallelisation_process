@@ -2,7 +2,7 @@ import dask.array as da
 import rasterio
 
 
-def multiply(array):
+def multiply(array, data):
     # Tableau de chunks pour le dask array
     chunks = []
     chunk = int(input("Entrez une valeur pour le tuple de chunks : "))
@@ -17,7 +17,7 @@ def multiply(array):
 
     # Si la valeur est >= au seuil on la multiplie par 10, sinon on la remplace par une valeur de nodata
     seuil = int(input("Entrez la valeur du seuil pour la multiplication : "))
-    multipliedDaskArray = da.where(daskArray >= seuil, 10*daskArray, -9999)
+    multipliedDaskArray = da.where(daskArray >= seuil, 10*daskArray, data['nodata'])
     return multipliedDaskArray
 
 
@@ -26,7 +26,8 @@ def createRaster(array, data):
     convertedArray = array.astype(rasterio.int16)
 
     # Création du nouveau raster
-    with rasterio.open("D:\\Documents\\MISSIONS\\DASK\\new.tif", 'w', **data) as dst:
+    outputRaster = input("Entrez le chemin vers votre fichier de sortie raster : ")
+    with rasterio.open(outputRaster, 'w', **data) as dst:
         dst.write(convertedArray)
 
 
@@ -38,8 +39,7 @@ if __name__ == "__main__":
     with rasterio.open(rasterPath) as raster:
         npArray = raster.read()
         data = raster.profile
-        print(data)
         data['nodata'] = int(input("Entrez une valeur de nodata : "))
 
-    multipliedArray = multiply(npArray)
+    multipliedArray = multiply(npArray, data)
     createRaster(multipliedArray, data)
