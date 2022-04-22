@@ -1,15 +1,15 @@
 {
   "interpolation": {
-    "max_search_distance": 650
+    "max_search_distance": "Distance de recherche pour le calcul de l'interpolation (int)"
   },
   "open_rasterio": {
-    "filename": "D:\\Documents\\MISSIONS\\DASK\\interpolation\\echant_mne_va_heron_deflate.tif",
-    "chunks": [1, 2000, 2000]
+    "filename": "Raster à interpoler",
+    "chunks": "Valeur des chunks (list)"
   },
   "mask": {
-    "limit": 20
+    "limit": "Valeur limite en dessous de laquelle la valeur sera mise à 0 pour le mask (int)"
   },
   "to_raster": {
-    "output_file": "D:\\Documents\\MISSIONS\\DASK\\interpolation\\final_output.tif"
+    "output_file": "Raster interpolé"
   }
 }
