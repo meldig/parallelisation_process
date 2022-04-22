@@ -1,0 +1,15 @@
+{
+  "interpolation": {
+    "max_search_distance": 650
+  },
+  "open_rasterio": {
+    "filename": "D:\\Documents\\MISSIONS\\DASK\\interpolation\\echant_mne_va_heron_deflate.tif",
+    "chunks": [1, 2000, 2000]
+  },
+  "mask": {
+    "limit": 20
+  },
+  "to_raster": {
+    "output_file": "D:\\Documents\\MISSIONS\\DASK\\interpolation\\final_output.tif"
+  }
+}

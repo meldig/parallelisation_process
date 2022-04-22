@@ -1,3 +1,5 @@
+import json
+
 import rioxarray
 import rioxarray.merge
 import xarray as xr
@@ -9,7 +11,7 @@ import numpy as np
 
 @dask.delayed
 def interpolation(array, mask):
-    return rasterio.fill.fillnodata(array, mask, 650)
+    return rasterio.fill.fillnodata(array, mask, config.get('interpolation').get('max_search_distance'))
 
 
 @dask.delayed
@@ -42,16 +44,21 @@ def calculate_coordinates(arrays):
 
 
 if __name__ == "__main__":
+    with open("./config.json") as file:
+        config = json.load(file)
+
     interpoled_data = []
     data_arrays = []
 
-    ds = rioxarray.open_rasterio(filename="D:\\Documents\\MISSIONS\\DASK\\interpolation\\echant_mne_va_heron_deflate.tif",
-                                 chunks=(1, 2000, 2000))
+    open_rasterio = config.get('open_rasterio')
+
+    ds = rioxarray.open_rasterio(filename=open_rasterio.get('filename'),
+                                 chunks=(open_rasterio.get('chunks')[0], open_rasterio.get('chunks')[1], open_rasterio.get('chunks')[2]))
 
     chunks = ds.data.to_delayed().ravel()
 
     for chunk in (c.compute() for c in chunks):
-        mask = dask.delayed(np.where)(chunk < 20, 0, chunk)
+        mask = dask.delayed(np.where)(chunk < config.get('mask').get('limit'), .0, chunk)
         res = dask.delayed(interpolation)(chunk, mask.compute())
         interpoled_data.append(da.from_delayed(res, chunk.shape, chunk.dtype))
 
@@ -67,4 +74,4 @@ if __name__ == "__main__":
         )
 
     merged_data = dask.delayed(merge_tiles)(data_arrays, ds.rio.bounds()).compute()
-    xr.DataArray(merged_data).rio.to_raster("D:\\Documents\\MISSIONS\\DASK\\interpolation\\final_output.tif")
+    xr.DataArray(merged_data).rio.to_raster(config.get('to_raster').get('output_file'))
