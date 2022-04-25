@@ -22,7 +22,7 @@ Le mask est en fait un autre tableau, où les valeurs à interpoler sont représ
 
 La fonction retourne le tableau interpolé, sans valeurs de nodata grâce à la fonction `fillnodata()` de rasterio.
 
-### merge_tiles :currency_exchange:
+### merge_tiles :arrows_counterclockwise:
 
 Cette fonction attend une liste de DataArrays et les bordures du tableau final.
 
