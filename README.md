@@ -18,7 +18,7 @@ conda install -c conda-forge nodejs
 - Lancer jupyter avec la commande : ``jupyter lab``
 - Exécuter dans un nouveau notebook :
 
-````
+```` python
 import dask.distributed as dd  
 from dask.distributed import Client  
 client = Client()
@@ -30,11 +30,11 @@ client = Client()
 #### Utilisation du notebook
 
 Dans le notebook, vous aurez à disposition plusieurs sections dans lesquelles vous pourrez écrire et exécuter du code.
-Pour exécuter une portion de code : Ctrl + Entrée
-Pour exécuter une portion de code et créer une nouvelle section : Shift + Entrée
+- Pour exécuter une portion de code : Ctrl + Entrée
+- Pour exécuter une portion de code et créer une nouvelle section : Shift + Entrée
 
 L'intérêt de dask-labextension est de pouvoir visualiser vos jeux de données, mais aussi de voir comment les tâches s'exécutent.
-Pour cela, il est recommandé d'ouvrir les deux fenêtres suivantes :
+Pour cela, je vous recommande d'ouvrir les deux fenêtres suivantes :
 - Task Stream
 - Progress
 
