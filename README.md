@@ -40,4 +40,4 @@ Pour cela, je vous recommande d'ouvrir les deux fenêtres suivantes :
 
 Enfin, pour la visualisation des divers objets dask, vous pouvez procéder comme ceci :
 - En fin de section (dernière ligne), écrivez le nom de votre variable qui contient l'objet que vous voulez visualiser (Dask Array par exemple). Celui-ci apparaîtra juste en dessous avec différentes information.
-- Si vous utilisez Delayed, la fonction visualize vous permettra d'afficher le graphe des tâches. Vous pourrez l'exéctuer grâce à la fonction compute().
+- Si vous utilisez Delayed, la fonction visualize() vous permettra d'afficher le graphe des tâches. Vous pourrez l'exéctuer grâce à la fonction compute().
