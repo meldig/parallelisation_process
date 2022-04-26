@@ -26,7 +26,7 @@ La fonction retourne le tableau interpolé, sans valeurs de nodata grâce à la 
 
 Cette fonction attend une liste de DataArrays et les bordures du tableau final.
 
-Cette fonction retourne un tableau numpy qui sera le rassemblement de toutes les DataArraysz.
+Cette fonction retourne un tableau numpy qui sera le rassemblement de toutes les DataArrays.
 
 ### calculate_coordinates :earth_americas:
 
