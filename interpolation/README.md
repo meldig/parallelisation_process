@@ -42,4 +42,10 @@ Si on est arrivé sur la tuile la plus à droite du raster (ie. il n'y a plus de
 
 On répète l'opération pour toutes les tuiles.
 
+Pour que vous puissiez plus facilement comprendre cette fonction, voici un schéma qui devrait vous aider à visualiser la boucle :
+
+![DS](./img/ds.PNG)
+
+![DS](./img/schema-1.png)
+
 Au final, cette fonction nous retourne une liste de coordonnées que l'on utilisera pour construire nos DataArrays.
