@@ -4,7 +4,7 @@
   },
   "open_rasterio": {
     "filename": "Raster à interpoler",
-    "chunks": "Valeur des chunks (list)"
+    "chunks": "Valeur des chunks (liste : [band, y, x])"
   },
   "mask": {
     "limit": "Valeur limite en dessous de laquelle la valeur sera mise à 0 pour le mask (int)"
