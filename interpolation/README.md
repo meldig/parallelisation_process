@@ -46,6 +46,6 @@ Pour que vous puissiez plus facilement comprendre cette fonction, voici un sché
 
 ![DS](./img/ds.PNG)
 
-![DS](./img/schema-1.png)
+![SCHEMA](./img/schema-1.png)
 
 Au final, cette fonction nous retourne une liste de coordonnées que l'on utilisera pour construire nos DataArrays.
