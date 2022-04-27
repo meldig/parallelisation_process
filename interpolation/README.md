@@ -18,7 +18,7 @@ On exporte ensuite le raster grâce à la fonction `to_raster()`.
 
 Cette fonction attend un tableau à interpoler et un mask.
 
-Le mask est en fait un autre tableau, où les valeurs à interpoler sont représentées par des 0 dans le tableau.
+Le mask est en fait un autre tableau, où les valeurs à interpoler sont représentées par des 0 dans le tableau (cf [rasterio.fill module](https://github.com/meldig/conda)).
 
 La fonction retourne le tableau interpolé, sans valeurs de nodata grâce à la fonction `fillnodata()` de rasterio.
 
