@@ -12,7 +12,7 @@ Ouverture du raster avec la fonction `open_rasterio()` de rioxarray, en renseign
 
 Pour calculer les coordonnées, on récupère la taille des chunks dans un tableau, puis on split le tableau contenant les valeurs de coordonnées (`ds.data.coords["x"]`) en fonction de ce dernier. On effectue ensuite le `cumsum` pour découper le tableau tous les 7000 indices. On créer ensuite les objets contenant les coordonnées grâce à la fonction `create_coords`.
 
-Pour chaque chunk, on va calculer le mask (grâce à la fonction `create_mask`) qui va permettre d'interpoler et on interpole la tuile en cours grâce à la fonction `interpolation`. Dans la foulée on créé le DataArray (fonction `create_data_array`) et on exporte la tuile au format GTiff. Cette approche permet de ne pas conserver les tableaux interpolés en mémoire.
+Pour chaque chunk, on va calculer le mask (grâce à la fonction `create_mask`) qui va permettre d'interpoler et on interpole la tuile en cours grâce à la fonction `interpolation`. Dans la foulée on créé le DataArray (fonction `create_data_array`) et on exporte la tuile au format GTiff. Cette approche permet de ne pas conserver les tableaux interpolés en mémoire. Le mask est un tableau où toutes les valeurs à interpoler sont remplacées par des 0.
 
 On rassemble ensuite les tuiles grâce à la création d'un fichier VRT et la fonction Translate (voir [VRT](https://gdal.org/drivers/raster/vrt.html) et [Translate](https://gdal.org/programs/gdal_translate.html)) 
 
