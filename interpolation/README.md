@@ -12,7 +12,7 @@ Ouverture du raster avec la fonction `open_rasterio()` de rioxarray, en renseign
 
 Pour calculer les coordonnées, on récupère la taille des chunks dans un tableau, puis on split le tableau contenant les valeurs de coordonnées (`ds.data.coords["x"]`) en fonction de ce dernier. On effectue le `cumsum`car la fonction split de numpy split en fonction des valeurs dans le tableau et non en fonction des indices. On créer ensuite les objets contenant les coordonnées grâce à la fonction `create_coords`.
 
-Pour chaque chunk, on va calculer le mask qui va permettre d'interpoler et on interpole la tuile en cours grâce à la fonction interpolation. Dans la foulée on calcule le DataArray et on exporte la tuile au format .tif. Cette approche permet de ne pas conserver les tableaux interpolés en mémoire.
+Pour chaque chunk, on va calculer le mask (grâce à la fonction `create_mask`) qui va permettre d'interpoler et on interpole la tuile en cours grâce à la fonction `interpolation`. Dans la foulée on créé le DataArray (fonction `create_data_array`) et on exporte la tuile au format GTiff. Cette approche permet de ne pas conserver les tableaux interpolés en mémoire.
 
 On rassemble ensuite les tuiles grâce à la création d'un fichier VRT et la fonction Translate (voir [VRT](https://gdal.org/drivers/raster/vrt.html) et [Translate](https://gdal.org/programs/gdal_translate.html)) 
 
@@ -24,30 +24,8 @@ Le mask est en fait un autre tableau, où les valeurs à interpoler sont représ
 
 La fonction retourne le tableau interpolé, sans valeurs de nodata grâce à la fonction `fillnodata()` de rasterio.
 
-### merge_tiles :arrows_counterclockwise:
+### write_tiles :pencil2:
 
-Cette fonction attend une liste de DataArrays et les bordures du tableau final.
+Fonction qui attend une tuile à écrire et un indice.
 
-Cette fonction retourne un tableau numpy qui sera le rassemblement de toutes les DataArrays.
-
-### calculate_coordinates :earth_americas:
-
-Cette fonction permet de calculer les coordonées d'une tuile pour pouvoir la replacer au bon endroit dans le raster final.
-
-On a tout d'abord deux variables `x_axis` et `y_axis` qui sont simplement toutes les valeurs de pixel du raster en entrée selon les axes x et y.
-
-Pour chaque tuile, on va ajouter à une liste un objet qui contiendra ses coordonnées. Pour cela, on va découper dans les tableaux `x_axis` et `y_axis` les valeurs de l'indice 0 jusqu'à la hauteur (resp. largeur) de la tuile en cours.
-
-Une fois les valeurs prises dans le tableau, on retire celles-ci pour pouvoir établir le même procédé pour la tuile suivante.
-
-Si on est arrivé sur la tuile la plus à droite du raster (ie. il n'y a plus de valeur à droite de celle-ci) : on réinitialise le tableau `x_axis` et on passe à la ligne de tuile juste en dessous.
-
-On répète l'opération pour toutes les tuiles.
-
-Pour que vous puissiez plus facilement comprendre cette fonction, voici un schéma qui devrait vous aider à visualiser la boucle :
-
-![DS](./img/ds.PNG)
-
-![SCHEMA](./img/schema-1.png)
-
-Au final, cette fonction nous retourne une liste de coordonnées que l'on utilisera pour construire nos DataArrays.
+Permet d'exporter la tuile au format GTiff.
