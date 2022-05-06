@@ -6,13 +6,15 @@ Utilisation de rioxarray pour la lecture et le regroupement des données. Dask p
 
 ### main :house_with_garden:
 
+Création du client qui va permettre de gérer le nombre de workers et le nombre de threads par worker.
+
 Ouverture du raster avec la fonction `open_rasterio()` de rioxarray, en renseignant le paramètre `chunks` on découpe la donnée.
 
-Pour chaque chunk, on va calculer le mask qui va permettre d'interpoler et on interpole la tuile en cours grâce à la fonction interpolation. Le résultat est stocké dans un tableau.
+Pour calculer les coordonnées, on récupère la taille des chunks dans un tableau, puis on split le tableau contenant les valeurs de coordonnées (`ds.data.coords["x"]`) en fonction de ce dernier. On effectue le `cumsum`car la fonction split de numpy split en fonction des valeurs dans le tableau et non en fonction des indices. On créer ensuite les objets contenant les coordonnées grâce à la fonction `create_coords`.
 
-Ensuite, pour chaque tuile interpolée, on va la transformer en DataArray (xarray). Ce qui va nous permettre de renseigner ses dimensions et ses coordonnées, ce qui va être utile pour le rassemblement de toutes les tuiles.
+Pour chaque chunk, on va calculer le mask qui va permettre d'interpoler et on interpole la tuile en cours grâce à la fonction interpolation. Dans la foulée on calcule le DataArray et on exporte la tuile au format .tif. Cette approche permet de ne pas conserver les tableaux interpolés en mémoire.
 
-On exporte ensuite le raster grâce à la fonction `to_raster()`.
+On rassemble ensuite les tuiles grâce à la création d'un fichier VRT et la fonction Translate (voir [VRT](https://gdal.org/drivers/raster/vrt.html) et [Translate](https://gdal.org/programs/gdal_translate.html)) 
 
 ### interpolation :triangular_flag_on_post:
 
