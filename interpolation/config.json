@@ -1,4 +1,12 @@
 {
+  "directories": {
+    "input": "Chemin du dossier qui contient les entrées",
+    "output": "Chemin du dossier qui va recevoir les productions"
+  },
+  "client": {
+    "n_workers": "Nombre de workers (int)",
+    "threads_per_worker": "Nombre de threads par worker (int)"
+  },
   "interpolation": {
     "max_search_distance": "Distance de recherche pour le calcul de l'interpolation (int)"
   },
@@ -9,7 +17,8 @@
   "mask": {
     "limit": "Valeur limite en dessous de laquelle la valeur sera mise à 0 pour le mask (int)"
   },
-  "to_raster": {
-    "output_file": "Raster interpolé"
+  "gdal": {
+    "VRT" : "Chemin vers le fichier temporaire vrt",
+    "output_file": "Chemin vers le raster final interpolé et rassemblé"
   }
 }
