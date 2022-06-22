@@ -57,6 +57,8 @@ if __name__ == "__main__":
     with open("./config_dev.json") as file:
         config = json.load(file)
 
+    print("Ouvreture du raster\n")
+
     # Le client permet de gérer le nombre de threads à utiliser. Les threads sont répartis par workers
     client = Client(n_workers=config.get("client").get("n_workers"),
                     threads_per_worker=config.get("client").get("threads_per_worker"))
@@ -70,6 +72,8 @@ if __name__ == "__main__":
 
     x_split_values = []
     y_split_values = []
+
+    print("Calcul des coordonnées\n")
 
     # Remplissage des tableaux avec les dimensions des chunks. Par exemple, s'il y a 17 chunks de 7000x7000 par ligne, on aura
     # 17 fois 7000 dans le tableau x_split_values
@@ -95,6 +99,8 @@ if __name__ == "__main__":
     delayed_chunks = ds.data.to_delayed().ravel()
     coordinates = create_coords(coords_x_splitted, coords_y_splitted)
 
+    print("Interpolation + conversion en data array\n")
+
     # Pour chaque chunk
     for k in range(len(delayed_chunks)):
         # Calcul du mask
@@ -111,6 +117,8 @@ if __name__ == "__main__":
 
     # Ici, tous les fichiers .tif sont dans le répertoire de sortie, il y a autant de fichiers que de chunks.
     # Il suffit maintenant de les rassembler
+
+    print("Exportation\n")
 
     # Récupération de tous les fichiers
     files = glob.glob(config.get("directories").get("output") + "/*.tif")
