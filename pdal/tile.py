@@ -10,6 +10,7 @@ class Tile:
     def pipeline(self):
         name = uuid.uuid4()
         output_dir = self.args['output_dir']
+        compression = self.args['compression']
         output_filename = f'{output_dir}/{name}.las'
         reader = pdal.Reader(
             filename=self.filename
@@ -17,10 +18,11 @@ class Tile:
         hag_nn = pdal.Filter.hag_nn(count='100')
         range = pdal.Filter.range(limits="HeightAboveGround[:3]")
         writer = pdal.Writer.las(
-            filename=output_filename
+            filename=output_filename,
+            compression=compression
         )
         p = reader | hag_nn | range | writer
-        return p
+        return p, name
 
     def __str__(self):
         return f'{self.filename}'

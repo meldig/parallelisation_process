@@ -1,19 +1,31 @@
 import dask
 import tile
+import pickle
+import os
 
 
 @dask.delayed
-def process(pipeline):
-    pipeline.execute()
+def process(pipeline, temp_file):
+    pipeline[0].execute()
+    os.remove(temp_file)
 
 
-def processPipelines(files, args):
-    tiles = []
+def processPipelines(args, files=None, pipelines=None):
     delayedPipelines = []
-    for file in files:
-        tiles.append(tile.Tile(file, args))
+    if pipelines:
+        for p in pipelines:
+            temp_file = 'temp/' + str(p[1]) + '.pickle'
+            delayedPipelines.append(dask.delayed(process)(p, temp_file))
+    else:
+        tiles = []
+        for file in files:
+            tiles.append(tile.Tile(file, args))
 
-    for t in tiles:
-        delayedPipelines.append(dask.delayed(process)(t.pipeline()))
+        for t in tiles:
+            pipeline = t.pipeline()
+            temp_file = 'temp/' + str(pipeline[1]) + '.pickle'
+            with open(temp_file, 'wb') as outfile:
+                pickle.dump(pipeline, outfile)
+            delayedPipelines.append(dask.delayed(process)(pipeline, temp_file))
 
     return delayedPipelines
