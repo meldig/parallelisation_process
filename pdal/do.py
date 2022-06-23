@@ -10,7 +10,7 @@ def process(pipeline, temp_file):
     os.remove(temp_file)
 
 
-def processPipelines(args, files=None, pipelines=None):
+def processPipelines(output_dir, files=None, pipelines=None):
     delayedPipelines = []
     if pipelines:
         for p in pipelines:
@@ -19,7 +19,7 @@ def processPipelines(args, files=None, pipelines=None):
     else:
         tiles = []
         for file in files:
-            tiles.append(tile.Tile(file, args))
+            tiles.append(tile.Tile(file, output_dir))
 
         for t in tiles:
             pipeline = t.pipeline()
