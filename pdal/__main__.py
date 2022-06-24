@@ -1,5 +1,5 @@
 import pickle
-
+import json
 import dask
 import do
 from dask.distributed import Client
@@ -7,9 +7,12 @@ from os import listdir
 from os.path import join
 
 if __name__ == "__main__":
+    with open('./config_dev.json') as j:
+        config = json.load(j)
+
     temp_directory = './temp'
-    input_directory = 'D:/Documents/MISSIONS/DASK/pdal/input'
-    output_dir = 'D:/Documents/MISSIONS/DASK/pdal/output'
+    input_directory = config.get('directories').get('input_dir')
+    output_dir = config.get('directories').get('output_dir')
     files = []
     pipelines = []
 
